@@ -24,7 +24,7 @@ public class ClanManager {
                     ResultSet rs = ps1.executeQuery();
                     if(rs.next()){
                         String clan_id = rs.getString("id");
-                        try(PreparedStatement ps2 = conn.prepareStatement("UPDATE players SET clan_id WHERE uuid = ?")){
+                        try(PreparedStatement ps2 = conn.prepareStatement("UPDATE players SET clan_id = ? WHERE uuid = ?")){
                             ps2.setString(1, clan_id);
                             ps2.setString(2, p.getUniqueId().toString());
                             ps2.executeUpdate();
@@ -53,7 +53,7 @@ public class ClanManager {
                     ps1.setInt(1, clanId);
                     ps1.executeUpdate();
                 }
-                try(PreparedStatement ps2 = conn.prepareStatement("DELETE FROM clan WHERE id = ?")){
+                try(PreparedStatement ps2 = conn.prepareStatement("DELETE FROM clans WHERE id = ?")){
                     ps2.setInt(1, clanId);
                     ps2.executeUpdate();
                 }

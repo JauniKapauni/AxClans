@@ -5,6 +5,7 @@ import de.jaunikapauni.axclans.command.DeleteCommand;
 import de.jaunikapauni.axclans.listener.PlayerJoinListener;
 import de.jaunikapauni.axclans.manager.ClanManager;
 import de.jaunikapauni.axclans.manager.DatabaseManager;
+import de.jaunikapauni.axclans.placeholder.ClanPlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +26,7 @@ public final class AxClans extends JavaPlugin {
         try{
             databaseManager = new DatabaseManager(this);
             clanManager = new ClanManager(this);
-            if(databaseManager.initDatabaseTable1() || databaseManager.initDatabaseTable2() == false){
+            if(databaseManager.initDatabaseTable1() && databaseManager.initDatabaseTable2() == false){
                 getLogger().severe("Error creating table!");
                 Bukkit.getServer().shutdown();
             }
@@ -34,7 +35,11 @@ public final class AxClans extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getCommand("create").setExecutor(new CreateCommand(this));
-        getCommand("create").setExecutor(new DeleteCommand(this));
+        getCommand("delete").setExecutor(new DeleteCommand(this));
+        if(Bukkit.getPluginManager().getPlugin("PlaceHolderAPI") != null){
+            new ClanPlaceholder(this).register();
+            getLogger().info("Successfully registered AxClans placeholders!");
+        }
     }
 
     @Override

@@ -10,10 +10,13 @@ load: POSTWORLD
 authors: [ JauniKapauni ]
 website: https://github.com/JauniKapauni
 
+softdepend:
+  - PlaceHolderAPI
+
 commands:
   create:
     usage: /create <name>
     description: Create a clan
-  remove:
+  delete:
     usage: /remove <name>
     description: Remove a clan
