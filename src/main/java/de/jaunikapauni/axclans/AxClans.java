@@ -2,6 +2,8 @@ package de.jaunikapauni.axclans;
 
 import de.jaunikapauni.axclans.command.CreateCommand;
 import de.jaunikapauni.axclans.command.DeleteCommand;
+import de.jaunikapauni.axclans.command.JoinCommand;
+import de.jaunikapauni.axclans.command.LeaveCommand;
 import de.jaunikapauni.axclans.listener.PlayerJoinListener;
 import de.jaunikapauni.axclans.manager.ClanManager;
 import de.jaunikapauni.axclans.manager.DatabaseManager;
@@ -36,6 +38,8 @@ public final class AxClans extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getCommand("create").setExecutor(new CreateCommand(this));
         getCommand("delete").setExecutor(new DeleteCommand(this));
+        getCommand("join").setExecutor(new JoinCommand(this));
+        getCommand("leave").setExecutor(new LeaveCommand(this));
         if(Bukkit.getPluginManager().getPlugin("PlaceHolderAPI") != null){
             new ClanPlaceholder(this).register();
             getLogger().info("Successfully registered AxClans placeholders!");

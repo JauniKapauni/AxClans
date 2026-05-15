@@ -62,4 +62,34 @@ public class ClanManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void joinClan(Player p, String name){
+        try(Connection conn = reference.getDatabaseManager().getConnection()){
+            try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM clans WHERE name = ?")){
+                ps.setString(1, name);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    int clan_id = rs.getInt("id");
+                    try(PreparedStatement ps2 = conn.prepareStatement("UPDATE players SET clan_id = ? WHERE uuid = ?")){
+                        ps2.setInt(1, clan_id);
+                        ps2.setString(2, p.getUniqueId().toString());
+                        ps2.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void leaveClan(Player p){
+        try(Connection conn = reference.getDatabaseManager().getConnection()){
+            try(PreparedStatement ps = conn.prepareStatement("UPDATE players SET clan_id = null WHERE uuid = ?")){
+                ps.setString(1, p.getUniqueId().toString());
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

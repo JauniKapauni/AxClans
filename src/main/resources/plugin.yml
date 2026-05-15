@@ -20,3 +20,9 @@ commands:
   delete:
     usage: /remove <name>
     description: Remove a clan
+  join:
+    usage: /join <name>
+    description: Join a clan
+  leave:
+    usage: /leave <name>
+    description: Leave a clan
