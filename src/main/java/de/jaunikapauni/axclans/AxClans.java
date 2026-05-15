@@ -1,5 +1,6 @@
 package de.jaunikapauni.axclans;
 
+import de.jaunikapauni.axclans.listener.PlayerJoinListener;
 import de.jaunikapauni.axclans.manager.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +24,7 @@ public final class AxClans extends JavaPlugin {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
     }
 
     @Override
