@@ -9,3 +9,8 @@ load: POSTWORLD
 
 authors: [ JauniKapauni ]
 website: https://github.com/JauniKapauni
+
+commands:
+  create:
+    usage: /create <name>
+    description: Create a clan

@@ -1,6 +1,8 @@
 package de.jaunikapauni.axclans;
 
+import de.jaunikapauni.axclans.command.CreateCommand;
 import de.jaunikapauni.axclans.listener.PlayerJoinListener;
+import de.jaunikapauni.axclans.manager.ClanManager;
 import de.jaunikapauni.axclans.manager.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,6 +12,10 @@ public final class AxClans extends JavaPlugin {
     public DatabaseManager getDatabaseManager(){
         return databaseManager;
     }
+    ClanManager clanManager;
+    public ClanManager getClanManager(){
+        return clanManager;
+    }
 
     @Override
     public void onEnable() {
@@ -17,6 +23,7 @@ public final class AxClans extends JavaPlugin {
         saveDefaultConfig();
         try{
             databaseManager = new DatabaseManager(this);
+            clanManager = new ClanManager(this);
             if(databaseManager.initDatabaseTable1() || databaseManager.initDatabaseTable2() == false){
                 getLogger().severe("Error creating table!");
                 Bukkit.getServer().shutdown();
@@ -25,6 +32,7 @@ public final class AxClans extends JavaPlugin {
             throw new RuntimeException(e);
         }
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getCommand("create").setExecutor(new CreateCommand(this));
     }
 
     @Override
