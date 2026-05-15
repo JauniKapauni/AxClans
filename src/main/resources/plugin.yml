@@ -11,7 +11,7 @@ authors: [ JauniKapauni ]
 website: https://github.com/JauniKapauni
 
 softdepend:
-  - PlaceHolderAPI
+  - PlaceholderAPI
 
 commands:
   create:
