@@ -36,4 +36,30 @@ public class ClanManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteClan(String name){
+        try(Connection conn = reference.getDatabaseManager().getConnection()){
+            int clanId = -1;
+            try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM clans WHERE name = ?")){
+                ps.setString(1, name);
+                try(ResultSet rs = ps.executeQuery()){
+                    if(rs.next()){
+                        clanId = rs.getInt("id");
+                    }
+                }
+            }
+            if(clanId != -1){
+                try(PreparedStatement ps1 = conn.prepareStatement("UPDATE players SET clan_id = null WHERE clan_id = ?")){
+                    ps1.setInt(1, clanId);
+                    ps1.executeUpdate();
+                }
+                try(PreparedStatement ps2 = conn.prepareStatement("DELETE FROM clan WHERE id = ?")){
+                    ps2.setInt(1, clanId);
+                    ps2.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package de.jaunikapauni.axclans;
 
 import de.jaunikapauni.axclans.command.CreateCommand;
+import de.jaunikapauni.axclans.command.DeleteCommand;
 import de.jaunikapauni.axclans.listener.PlayerJoinListener;
 import de.jaunikapauni.axclans.manager.ClanManager;
 import de.jaunikapauni.axclans.manager.DatabaseManager;
@@ -33,6 +34,7 @@ public final class AxClans extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getCommand("create").setExecutor(new CreateCommand(this));
+        getCommand("create").setExecutor(new DeleteCommand(this));
     }
 
     @Override

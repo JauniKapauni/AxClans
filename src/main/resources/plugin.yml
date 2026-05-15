@@ -14,3 +14,6 @@ commands:
   create:
     usage: /create <name>
     description: Create a clan
+  remove:
+    usage: /remove <name>
+    description: Remove a clan
