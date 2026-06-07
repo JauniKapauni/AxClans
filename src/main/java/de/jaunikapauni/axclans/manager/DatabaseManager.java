@@ -56,4 +56,10 @@ public class DatabaseManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void close(){
+        if(hikari != null && !hikari.isClosed()){
+            hikari.close();
+        }
+    }
 }

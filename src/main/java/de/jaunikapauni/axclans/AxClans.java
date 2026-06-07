@@ -49,5 +49,6 @@ public final class AxClans extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        databaseManager.close();
     }
 }
