@@ -44,6 +44,13 @@ public final class AxClans extends JavaPlugin {
             new ClanPlaceholder(this).register();
             getLogger().info("Successfully registered AxClans placeholders!");
         }
+        getLogger().info("");
+        getLogger().info("----------------------------------------");
+        getLogger().info("Name: " + getName());
+        getLogger().info("Version: " + getDescription().getVersion());
+        getLogger().info(String.join("Authors: " + ", ", getDescription().getAuthors()));
+        getLogger().info("----------------------------------------");
+        getLogger().info("");
     }
 
     @Override
