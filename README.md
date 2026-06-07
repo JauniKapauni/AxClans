@@ -1,6 +1,10 @@
 # AxClans
 > Minecraft plugin to create clans
 ---
+## Requirements
+- Minecraft Paper 26.1.2 Server
+- MariaDB / MySQL Server
+- PlaceholderAPI
 ## Features
 - Create a clan
 - Remove a clan
