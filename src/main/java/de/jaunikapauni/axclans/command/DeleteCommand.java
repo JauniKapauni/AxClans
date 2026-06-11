@@ -15,8 +15,8 @@ public class DeleteCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         Player p = (Player) sender;
-        if(!p.hasPermission("axclans.create")){
-            p.sendMessage("You don't have the permission! [axclans.create]");
+        if(!p.hasPermission("axclans.delete")){
+            p.sendMessage("You don't have the permission! [axclans.delete]");
             return true;
         }
         String name = args[0];
