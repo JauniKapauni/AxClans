@@ -30,6 +30,11 @@ database:
   password:
 ```
 ---
+## Commands & Permissions
+- `/create` - `axclans.create`
+- `/delete` - `axclans.delete`
+- `/join` - `axclans.join`
+- `/leave` - `axclans.leave`
 ## Support
 Discord: [AxForge](https://discord.gg/rYSxV4daS8)
 ---
