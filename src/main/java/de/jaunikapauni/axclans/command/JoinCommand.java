@@ -15,6 +15,10 @@ public class JoinCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         Player p = (Player) sender;
+        if(!p.hasPermission("axclans.join")){
+            p.sendMessage("You don't have the permission! [axclans.join]");
+            return true;
+        }
         String name = args[0];
         reference.getClanManager().joinClan(p, name);
         p.sendMessage("You joined " + name);
