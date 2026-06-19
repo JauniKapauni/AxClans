@@ -26,3 +26,9 @@ commands:
   leave:
     usage: /leave <name>
     description: Leave a clan
+  accept:
+    usage: /accept <name>
+    description: Accept a player to the clan
+  deny:
+    usage: /deny <name>
+    description: Deny a player to the clan

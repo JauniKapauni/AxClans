@@ -57,6 +57,17 @@ public class DatabaseManager {
         }
     }
 
+    public boolean initDatabaseTable3(){
+        try(Connection conn = getConnection()){
+            try(PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS requests(id INT PRIMARY KEY AUTO_INCREMENT, clan_id INT, player_uuid VARCHAR(255), FOREIGN KEY (clan_id) REFERENCES clans(id), FOREIGN KEY(player_uuid) REFERENCES players(uuid))")){
+                ps.executeUpdate();
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void close(){
         if(hikari != null && !hikari.isClosed()){
             hikari.close();

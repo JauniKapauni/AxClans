@@ -1,9 +1,6 @@
 package de.jaunikapauni.axclans;
 
-import de.jaunikapauni.axclans.command.CreateCommand;
-import de.jaunikapauni.axclans.command.DeleteCommand;
-import de.jaunikapauni.axclans.command.JoinCommand;
-import de.jaunikapauni.axclans.command.LeaveCommand;
+import de.jaunikapauni.axclans.command.*;
 import de.jaunikapauni.axclans.listener.PlayerJoinListener;
 import de.jaunikapauni.axclans.manager.ClanManager;
 import de.jaunikapauni.axclans.manager.DatabaseManager;
@@ -28,7 +25,7 @@ public final class AxClans extends JavaPlugin {
         try{
             databaseManager = new DatabaseManager(this);
             clanManager = new ClanManager(this);
-            if(databaseManager.initDatabaseTable1() && databaseManager.initDatabaseTable2() == false){
+            if(databaseManager.initDatabaseTable1() && databaseManager.initDatabaseTable2() && databaseManager.initDatabaseTable3() == false){
                 getLogger().severe("Error creating table!");
                 Bukkit.getServer().shutdown();
             }
@@ -40,6 +37,8 @@ public final class AxClans extends JavaPlugin {
         getCommand("delete").setExecutor(new DeleteCommand(this));
         getCommand("join").setExecutor(new JoinCommand(this));
         getCommand("leave").setExecutor(new LeaveCommand(this));
+        getCommand("accept").setExecutor(new AcceptCommand(this));
+        getCommand("deny").setExecutor(new DenyCommand(this));
         if(Bukkit.getPluginManager().getPlugin("PlaceHolderAPI") != null){
             new ClanPlaceholder(this).register();
             getLogger().info("Successfully registered AxClans placeholders!");
