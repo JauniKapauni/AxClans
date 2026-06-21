@@ -21,7 +21,7 @@ public class JoinCommand implements CommandExecutor {
         }
         String name = args[0];
         reference.getClanManager().requestJoin(p, name);
-        p.sendMessage("You joined " + name);
+        p.sendMessage("You requested to join " + name);
         return true;
     }
 }
