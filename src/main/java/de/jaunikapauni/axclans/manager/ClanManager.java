@@ -154,6 +154,30 @@ public class ClanManager {
         }
     }
 
+    public int getMemberCount(String name){
+        try(Connection conn = reference.getDatabaseManager().getConnection()){
+            try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM clans WHERE name = ?")){
+                ps.setString(1, name);
+                try(ResultSet rs = ps.executeQuery()){
+                    if(rs.next()){
+                        int clanid = rs.getInt("id");
+                        try(PreparedStatement ps2 = conn.prepareStatement("SELECT COUNT(*) FROM players WHERE clan_id = ?")){
+                            ps2.setInt(1, clanid);
+                            try(ResultSet rs2 = ps2.executeQuery()){
+                                if(rs2.next()){
+                                    return rs2.getInt(1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
     public void requestJoin(Player p, String name) {
         try (Connection conn = reference.getDatabaseManager().getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement("SELECT id FROM clans WHERE name = ?")) {

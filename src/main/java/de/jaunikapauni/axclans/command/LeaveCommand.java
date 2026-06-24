@@ -21,6 +21,9 @@ public class LeaveCommand implements CommandExecutor {
         }
         if(reference.getClanManager().checkIfPlayerInClan(p.getUniqueId().toString())){
             String clanName = reference.getClanManager().getClanName(p);
+            if(reference.getClanManager().getMemberCount(clanName) == 1){
+                reference.getClanManager().deleteClan(clanName);
+            }
             reference.getClanManager().leaveClan(p);
             p.sendMessage("You left " + clanName);
         } else {
