@@ -95,6 +95,28 @@ public class ClanManager {
         }
     }
 
+    public String getClanName(Player p){
+        try(Connection conn = reference.getDatabaseManager().getConnection()){
+            try(PreparedStatement ps = conn.prepareStatement("SELECT clan_id FROM players WHERE uuid = ?")){
+                ps.setString(1, p.getUniqueId().toString());
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    int clan_id = rs.getInt("clan_id");
+                    try(PreparedStatement ps2 = conn.prepareStatement("SELECT name FROM clans WHERE id = ?")){
+                        ps2.setInt(1, clan_id);
+                        ResultSet rs2 = ps2.executeQuery();
+                        if(rs2.next()){
+                            return rs2.getString("name");
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return "";
+    }
+
     public void requestJoin(Player p, String name){
         try(Connection conn = reference.getDatabaseManager().getConnection()){
             try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM clans WHERE name = ?")){

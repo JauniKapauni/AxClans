@@ -19,9 +19,9 @@ public class LeaveCommand implements CommandExecutor {
             p.sendMessage("You don't have the permission! [axclans.leave]");
             return true;
         }
-        String name = args[0];
+        String clanName = reference.getClanManager().getClanName(p);
         reference.getClanManager().leaveClan(p);
-        p.sendMessage("You left " + name);
+        p.sendMessage("You left " + clanName);
         return true;
     }
 }
