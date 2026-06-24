@@ -117,6 +117,22 @@ public class ClanManager {
         return "";
     }
 
+    public boolean clanExists(String name){
+        try(Connection conn = reference.getDatabaseManager().getConnection()){
+            try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM clans WHERE name = ?")){
+                ps.setString(1, name);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void requestJoin(Player p, String name){
         try(Connection conn = reference.getDatabaseManager().getConnection()){
             try(PreparedStatement ps = conn.prepareStatement("SELECT id FROM clans WHERE name = ?")){
