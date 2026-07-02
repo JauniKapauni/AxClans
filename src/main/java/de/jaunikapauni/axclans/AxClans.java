@@ -5,6 +5,8 @@ import de.jaunikapauni.axclans.listener.PlayerJoinListener;
 import de.jaunikapauni.axclans.manager.ClanManager;
 import de.jaunikapauni.axclans.manager.DatabaseManager;
 import de.jaunikapauni.axclans.placeholder.ClanPlaceholder;
+import de.jaunikapauni.axeconomy.AxEconomy;
+import de.jaunikapauni.axeconomy.api.EconomyAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,6 +18,10 @@ public final class AxClans extends JavaPlugin {
     ClanManager clanManager;
     public ClanManager getClanManager(){
         return clanManager;
+    }
+    EconomyAPI economyAPI;
+    public EconomyAPI getEconomyAPI(){
+        return economyAPI;
     }
 
     @Override
@@ -50,6 +56,13 @@ public final class AxClans extends JavaPlugin {
         getLogger().info(String.join("Authors: " + ", ", getDescription().getAuthors()));
         getLogger().info("----------------------------------------");
         getLogger().info("");
+        if(Bukkit.getPluginManager().getPlugin("AxEconomy") != null){
+            AxEconomy axEconomy = (AxEconomy) Bukkit.getPluginManager().getPlugin("AxEconomy");
+            if(axEconomy == null){
+                throw new IllegalStateException("AxEconomy is missing!");
+            }
+            economyAPI = axEconomy.getEconomyAPI();
+        }
     }
 
     @Override
