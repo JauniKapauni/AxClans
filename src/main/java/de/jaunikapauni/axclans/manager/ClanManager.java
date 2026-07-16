@@ -27,7 +27,7 @@ public class ClanManager {
                     ResultSet rs = ps1.executeQuery();
                     if (rs.next()) {
                         int clan_id = rs.getInt("id");
-                        try (PreparedStatement ps2 = conn.prepareStatement("UPDATE players SET clan_id = ? WHERE uuid = ?")) {
+                        try (PreparedStatement ps2 = conn.prepareStatement("UPDATE players SET clan_id = ?, is_owner = true WHERE uuid = ?")) {
                             ps2.setInt(1, clan_id);
                             ps2.setString(2, p.getUniqueId().toString());
                             ps2.executeUpdate();
@@ -54,7 +54,7 @@ public class ClanManager {
                 }
             }
             if (clanId != -1) {
-                try (PreparedStatement ps1 = conn.prepareStatement("UPDATE players SET clan_id = null WHERE clan_id = ?")) {
+                try (PreparedStatement ps1 = conn.prepareStatement("UPDATE players SET clan_id = null, is_owner = false WHERE clan_id = ?")) {
                     ps1.setInt(1, clanId);
                     ps1.executeUpdate();
                 }
@@ -259,5 +259,20 @@ public class ClanManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean isOwner(Player p){
+        try(Connection conn = reference.getDatabaseManager().getConnection()){
+            try(PreparedStatement ps = conn.prepareStatement("SELECT is_owner FROM players WHERE uuid = ?")){
+                ps.setString(1, p.getUniqueId().toString());
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    return rs.getBoolean("is_owner");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }

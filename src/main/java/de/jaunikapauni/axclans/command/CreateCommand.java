@@ -27,6 +27,10 @@ public class CreateCommand implements CommandExecutor {
             p.sendMessage("You don't have the permission! [axclans.create]");
             return true;
         }
+        if(reference.getClanManager().checkIfPlayerInClan(p.getUniqueId().toString())){
+            p.sendMessage("You already have a clan!");
+            return false;
+        }
         String name = args[0];
         if (!reference.getEconomyAPI().has(p.getUniqueId(), 1000)) {
             p.sendMessage("Not enough money");

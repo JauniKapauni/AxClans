@@ -22,6 +22,10 @@ public class AcceptCommand implements CommandExecutor {
         if(args.length != 1){
             return false;
         }
+        if(!reference.getClanManager().isOwner(p)){
+            p.sendMessage("You are not the owner of the clan!");
+            return true;
+        }
         if(reference.getClanManager().acceptRequest(p, args[0])){
             p.sendMessage("Accepted request");
         } else {

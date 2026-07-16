@@ -26,6 +26,10 @@ public class DeleteCommand implements CommandExecutor {
             p.sendMessage("You don't have the permission! [axclans.delete]");
             return true;
         }
+        if(!reference.getClanManager().isOwner(p)){
+            p.sendMessage("You are not the owner of the clan!");
+            return true;
+        }
         String name = args[0];
         reference.getClanManager().deleteClan(name);
         p.sendMessage("You successfully deleted the clan " + name);

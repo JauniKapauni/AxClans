@@ -48,7 +48,7 @@ public class DatabaseManager {
 
     public boolean initDatabaseTable2(){
         try(Connection conn = getConnection()){
-            try(PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS players(uuid VARCHAR(255) PRIMARY KEY, clan_id INT, FOREIGN KEY (clan_id) REFERENCES clans(id))")){
+            try(PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS players(uuid VARCHAR(255) PRIMARY KEY, clan_id INT, is_owner BOOLEAN DEFAULT FALSE, FOREIGN KEY (clan_id) REFERENCES clans(id))")){
                 ps.executeUpdate();
                 return true;
             }
