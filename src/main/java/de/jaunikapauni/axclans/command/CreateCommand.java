@@ -28,10 +28,12 @@ public class CreateCommand implements CommandExecutor {
             return true;
         }
         String name = args[0];
-        reference.getClanManager().createClan(name, p);
-        if(reference.getEconomyAPI().has(p.getUniqueId(), 1000)){
-            reference.getEconomyAPI().withdraw(p.getUniqueId(), 1000);
+        if (!reference.getEconomyAPI().has(p.getUniqueId(), 1000)) {
+            p.sendMessage("Not enough money");
+            return true;
         }
+        reference.getEconomyAPI().withdraw(p.getUniqueId(), 1000);
+        reference.getClanManager().createClan(name, p);
         p.sendMessage("You successfully created the clan " + name);
         return true;
     }
