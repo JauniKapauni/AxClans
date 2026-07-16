@@ -202,6 +202,9 @@ public class ClanManager {
     public boolean acceptRequest(Player owner, String playerName) {
         int clanId = 0;
         OfflinePlayer target = Bukkit.getOfflinePlayer(playerName);
+        if(target == null){
+            return false;
+        }
         String uuid = target.getUniqueId().toString();
         try (Connection conn = reference.getDatabaseManager().getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement("SELECT clan_id FROM players WHERE uuid = ?")) {
