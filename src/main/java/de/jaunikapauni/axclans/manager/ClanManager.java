@@ -220,6 +220,13 @@ public class ClanManager {
                             return false;
                         }
                     }
+                    try(PreparedStatement checkPlayer = conn.prepareStatement("SELECT clan_id FROM players WHERE uuid = ?")){
+                        checkPlayer.setString(1, uuid);
+                        ResultSet playerResult = checkPlayer.executeQuery();
+                        if(playerResult.next() && playerResult.getObject("clan_id") != null){
+                            return false;
+                        }
+                    }
                     try (PreparedStatement add = conn.prepareStatement("UPDATE players SET clan_id = ? WHERE uuid = ?")) {
                         add.setInt(1, clanId);
                         add.setString(2, uuid);
