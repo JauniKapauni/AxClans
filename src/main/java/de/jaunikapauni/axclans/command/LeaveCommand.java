@@ -1,6 +1,7 @@
 package de.jaunikapauni.axclans.command;
 
 import de.jaunikapauni.axclans.AxClans;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,16 +27,22 @@ public class LeaveCommand implements CommandExecutor {
             p.sendMessage("You don't have the permission! [axclans.leave]");
             return true;
         }
-        if(reference.getClanManager().checkIfPlayerInClan(p.getUniqueId().toString())){
-            String clanName = reference.getClanManager().getClanName(p);
-            if(reference.getClanManager().getMemberCount(clanName) == 1){
-                reference.getClanManager().deleteClan(clanName);
+        Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
+            if(reference.getClanManager().checkIfPlayerInClan(p.getUniqueId().toString())){
+                String clanName = reference.getClanManager().getClanName(p);
+                if(reference.getClanManager().getMemberCount(clanName) == 1){
+                    reference.getClanManager().deleteClan(clanName);
+                }
+                reference.getClanManager().leaveClan(p);
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("You left " + clanName);
+                });
+            } else {
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("You are not in a clan!");
+                });
             }
-            reference.getClanManager().leaveClan(p);
-            p.sendMessage("You left " + clanName);
-        } else {
-            p.sendMessage("You are not in a clan!");
-        }
+        });
         return true;
     }
 }

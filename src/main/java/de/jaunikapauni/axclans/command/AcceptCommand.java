@@ -1,6 +1,7 @@
 package de.jaunikapauni.axclans.command;
 
 import de.jaunikapauni.axclans.AxClans;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,15 +23,23 @@ public class AcceptCommand implements CommandExecutor {
         if(args.length != 1){
             return false;
         }
-        if(!reference.getClanManager().isOwner(p)){
-            p.sendMessage("You are not the owner of the clan!");
-            return true;
-        }
-        if(reference.getClanManager().acceptRequest(p, args[0])){
-            p.sendMessage("Accepted request");
-        } else {
-            p.sendMessage("Could not accept request");
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
+            if(!reference.getClanManager().isOwner(p)){
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("You are not the owner of the clan!");
+                });
+                return;
+            }
+            if(reference.getClanManager().acceptRequest(p, args[0])){
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("Accepted request");
+                });
+            } else {
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("Could not accept request");
+                });
+            }
+        });
         return true;
     }
 }

@@ -1,6 +1,7 @@
 package de.jaunikapauni.axclans.command;
 
 import de.jaunikapauni.axclans.AxClans;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,17 +23,23 @@ public class DeleteCommand implements CommandExecutor {
         if(args.length != 1){
             return false;
         }
+        String name = args[0];
         if(!p.hasPermission("axclans.delete")){
             p.sendMessage("You don't have the permission! [axclans.delete]");
             return true;
         }
-        if(!reference.getClanManager().isOwner(p)){
-            p.sendMessage("You are not the owner of the clan!");
-            return true;
-        }
-        String name = args[0];
-        reference.getClanManager().deleteClan(name);
-        p.sendMessage("You successfully deleted the clan " + name);
+        Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
+            if(!reference.getClanManager().isOwner(p)){
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("You are not the owner of the clan!");
+                });
+                return;
+            }
+            reference.getClanManager().deleteClan(name);
+            Bukkit.getScheduler().runTask(reference, () -> {
+                p.sendMessage("You successfully deleted the clan " + name);
+            });
+        });
         return true;
     }
 }

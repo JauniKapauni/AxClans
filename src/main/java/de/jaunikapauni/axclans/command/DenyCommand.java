@@ -1,6 +1,7 @@
 package de.jaunikapauni.axclans.command;
 
 import de.jaunikapauni.axclans.AxClans;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,8 +23,12 @@ public class DenyCommand implements CommandExecutor {
         if(args.length != 1){
             return false;
         }
-        reference.getClanManager().denyRequest(args[0]);
-        p.sendMessage("Denied request!");
+        Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
+            reference.getClanManager().denyRequest(args[0]);
+            Bukkit.getScheduler().runTask(reference, () -> {
+                p.sendMessage("Denied request!");
+            });
+        });
         return true;
     }
 }

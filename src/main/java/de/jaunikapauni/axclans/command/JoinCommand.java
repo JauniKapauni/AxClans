@@ -1,6 +1,7 @@
 package de.jaunikapauni.axclans.command;
 
 import de.jaunikapauni.axclans.AxClans;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,12 +29,18 @@ public class JoinCommand implements CommandExecutor {
             return true;
         }
         String name = args[0];
-        if(reference.getClanManager().clanExists(name)){
-            reference.getClanManager().requestJoin(p, name);
-            p.sendMessage("You requested to join " + name);
-        } else {
-            p.sendMessage(ChatColor.RED + "Clan " + name + " does not exist!");
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
+            if(reference.getClanManager().clanExists(name)){
+                reference.getClanManager().requestJoin(p, name);
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("You requested to join " + name);
+                });
+            } else {
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage(ChatColor.RED + "Clan " + name + " does not exist!");
+                });
+            }
+        });
         return true;
     }
 }
