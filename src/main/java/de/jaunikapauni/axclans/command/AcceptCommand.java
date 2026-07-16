@@ -14,7 +14,14 @@ public class AcceptCommand implements CommandExecutor {
     }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+        if(!(sender instanceof Player)){
+            sender.sendMessage("Only players can run this command");
+            return true;
+        }
         Player p = (Player) sender;
+        if(args.length != 1){
+            return false;
+        }
         reference.getClanManager().acceptRequest(p, args[0]);
         p.sendMessage("Accepted request");
         return true;
