@@ -24,10 +24,21 @@ public class DenyCommand implements CommandExecutor {
             return false;
         }
         Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
-            reference.getClanManager().denyRequest(args[0]);
-            Bukkit.getScheduler().runTask(reference, () -> {
-                p.sendMessage("Denied request!");
-            });
+            if(!reference.getClanManager().isOwner(p)){
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("You are not the owner of the clan!");
+                });
+                return;
+            }
+            if(reference.getClanManager().denyRequest(args[0])){
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("Denied request!");
+                });
+            } else {
+                Bukkit.getScheduler().runTask(reference, () -> {
+                    p.sendMessage("No request found!");
+                });
+            }
         });
         return true;
     }

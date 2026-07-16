@@ -249,13 +249,14 @@ public class ClanManager {
         return false;
     }
 
-    public void denyRequest(String playerName) {
+    public boolean denyRequest(String playerName) {
         OfflinePlayer target = Bukkit.getOfflinePlayer(playerName);
         try (Connection conn = reference.getDatabaseManager().getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement("DELETE FROM requests WHERE player_uuid = ?")) {
                 ps.setString(1, target.getUniqueId().toString());
                 ps.executeUpdate();
             }
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
