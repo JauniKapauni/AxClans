@@ -32,9 +32,12 @@ public class CreateCommand implements CommandExecutor {
             p.sendMessage("Not enough money");
             return true;
         }
-        reference.getEconomyAPI().withdraw(p.getUniqueId(), 1000);
-        reference.getClanManager().createClan(name, p);
-        p.sendMessage("You successfully created the clan " + name);
+        if(reference.getClanManager().createClan(name, p)){
+            reference.getEconomyAPI().withdraw(p.getUniqueId(), 1000);
+            p.sendMessage("You successfully created the clan " + name);
+        } else {
+            p.sendMessage("Clan already exists");
+        }
         return true;
     }
 }
