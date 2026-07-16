@@ -22,8 +22,11 @@ public class AcceptCommand implements CommandExecutor {
         if(args.length != 1){
             return false;
         }
-        reference.getClanManager().acceptRequest(p, args[0]);
-        p.sendMessage("Accepted request");
+        if(reference.getClanManager().acceptRequest(p, args[0])){
+            p.sendMessage("Accepted request");
+        } else {
+            p.sendMessage("Could not accept request");
+        }
         return true;
     }
 }

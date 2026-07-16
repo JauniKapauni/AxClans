@@ -199,7 +199,7 @@ public class ClanManager {
         }
     }
 
-    public void acceptRequest(Player owner, String playerName) {
+    public boolean acceptRequest(Player owner, String playerName) {
         int clanId = 0;
         OfflinePlayer target = Bukkit.getOfflinePlayer(playerName);
         String uuid = target.getUniqueId().toString();
@@ -208,6 +208,9 @@ public class ClanManager {
                 ps.setString(1, owner.getUniqueId().toString());
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
+                    if(rs.getObject("clan_id") == null){
+                        return false;
+                    }
                     clanId = rs.getInt("clan_id");
                     try (PreparedStatement add = conn.prepareStatement("UPDATE players SET clan_id = ? WHERE uuid = ?")) {
                         add.setInt(1, clanId);
@@ -218,11 +221,13 @@ public class ClanManager {
                         del.setString(1, uuid);
                         del.executeUpdate();
                     }
+                    return true;
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
 
     public void denyRequest(String playerName) {
