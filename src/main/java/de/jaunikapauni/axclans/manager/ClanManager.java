@@ -225,7 +225,7 @@ public class ClanManager {
                         add.setString(2, uuid);
                         add.executeUpdate();
                     }
-                    try (PreparedStatement del = conn.prepareStatement("DELETE FROM requests WHERE player_uuid = ?")) {
+                    try (PreparedStatement del = conn.prepareStatement("DELETE FROM requests WHERE player_uuid = ? AND player_uuid = ?")) {
                         del.setString(1, uuid);
                         del.executeUpdate();
                     }
