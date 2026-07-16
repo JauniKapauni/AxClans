@@ -212,6 +212,14 @@ public class ClanManager {
                         return false;
                     }
                     clanId = rs.getInt("clan_id");
+                    try(PreparedStatement check = conn.prepareStatement("SELECT id FROM requests WHERE clan_id = ? AND player_uuid = ?")){
+                        check.setInt(1, clanId);
+                        check.setString(2, uuid);
+                        ResultSet resultSet = check.executeQuery();
+                        if(!resultSet.next()){
+                            return false;
+                        }
+                    }
                     try (PreparedStatement add = conn.prepareStatement("UPDATE players SET clan_id = ? WHERE uuid = ?")) {
                         add.setInt(1, clanId);
                         add.setString(2, uuid);
