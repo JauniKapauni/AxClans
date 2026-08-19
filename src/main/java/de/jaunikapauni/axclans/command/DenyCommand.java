@@ -23,6 +23,10 @@ public class DenyCommand implements CommandExecutor {
         if(args.length != 1){
             return false;
         }
+        if (!p.hasPermission("axclans.deny")) {
+            p.sendMessage("You don't have the permission! [axclans.deny]");
+            return true;
+        }
         Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
             if(!reference.getClanManager().isOwner(p)){
                 Bukkit.getScheduler().runTask(reference, () -> {

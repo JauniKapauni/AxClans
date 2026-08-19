@@ -23,6 +23,10 @@ public class AcceptCommand implements CommandExecutor {
         if(args.length != 1){
             return false;
         }
+        if (!p.hasPermission("axclans.accept")) {
+            p.sendMessage("You don't have the permission! [axclans.accept]");
+            return true;
+        }
         Bukkit.getScheduler().runTaskAsynchronously(reference, () -> {
             if(!reference.getClanManager().isOwner(p)){
                 Bukkit.getScheduler().runTask(reference, () -> {
